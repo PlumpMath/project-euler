@@ -1,5 +1,6 @@
 (ns project-euler.pe002
-  "By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.")
+  "By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms."
+  {:problem-page "https://projecteuler.net/problem=2"})
 
 (def fib (lazy-cat [0 1] (map + fib (rest fib))))
 

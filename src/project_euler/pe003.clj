@@ -1,5 +1,8 @@
 (ns project-euler.pe003
-  "What is the largest prime factor of the number 600851475143 ?")
+  "What is the largest prime factor of the number 600851475143 ?"
+  {:problem-page "https://projecteuler.net/problem=3"}
+  (:require [clojure.test :as test :refer [with-test is]]
+            [clojure.tools.logging :as log]))
 
 (defn factor?
   "Is p a factor of q?"
@@ -19,8 +22,9 @@
           (recur n (inc candidate)) ; no - try the next largest candidate
           )))))
 
-(defn main
-  []
-  ^{:answer 6857}
-  (let [n 600851475143N]
-    (get-max-prime-factor n 2)))
+(with-test
+  (defn ^{:answer 6857} main
+    []
+    (let [n 600851475143N]
+      (get-max-prime-factor n 2)))
+  (is (= (-> #'main meta :answer) (main))))

@@ -6,8 +6,10 @@
 
 (defn palindrome?
   [n]
-  (let [s (seq (str n))]
-    (= s (reverse s))))
+  (= n (loop [f n r 0]
+         (if (zero? f)
+           r
+           (recur (quot f 10) (+ (* 10 r) (rem f 10)))))))
 
 (with-test
   (defn ^{:answer 906609} main

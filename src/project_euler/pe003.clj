@@ -10,10 +10,10 @@
 (defn get-max-prime-factor
   "Find the maximum prime factor of q starting with p-max, the largest currently known prime factor"
   [q p-max]
-  (let [limit (Math/sqrt q)] ; The greatest factor of q cannot be greater than sqrt(q)
+  (let [limit (Math/sqrt q)] ; Factor pairs of q will have one of the pair below sqrt(q)
     (loop [n q candidate p-max]
       (if (> candidate limit)
-        n ; there are no factors past the limit, thus n itself is prime and a factor of itself
+        n ; there are no unfound factors past the limit, thus n itself is prime and a factor of itself
         (if (factor? n candidate) ; is candidate a factor of n?
           (get-max-prime-factor (/ n candidate) candidate) ; yes - recurse to find its max prime factor
           (recur n (inc candidate)) ; no - try the next largest candidate

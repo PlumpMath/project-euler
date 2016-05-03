@@ -6,10 +6,11 @@
 
 ;; Restatement: find the least common multiple of all of the numbers from 1 to 20
 ;; Reference: https://en.wikipedia.org/wiki/Least_common_multiple
-;; Assertion: lcm(a,b) = |ab|/gcd(a,b)
-;; where gcd(a,b) is the greatest common divisor of a and b
-;; Use the Euclidean Algorithm to find gcd(a,b)
 
+(defn factor?
+  "Is p a factor of q?"
+  [q p]
+  (zero? (rem q p)))
 
 (defn- sieve
   "A simplistic implementation of the Sieve of Erasthones for finding all prime numbers less than limit"
@@ -19,11 +20,6 @@
       (if (> prime max)
         (concat primes candidates)
         (recur (conj primes prime) (remove #(factor? % prime) rest))))))
-
-(defn factor?
-  "Is p a factor of q?"
-  [q p]
-  (zero? (rem q p)))
 
 ;; https://en.wikipedia.org/wiki/Least_common_multiple#A_method_using_a_table
 (defn lcm

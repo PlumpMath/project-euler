@@ -15,20 +15,18 @@ where each “_” is a single digit."
   [n]
   (reverse (rdigitize n)))
 
-(let [template '(1 2 3 4 5 6 7 8 9 0)]
-  (defn- inject
-    "Inject the digits into the magic template and return the value"
-    [digits]
-    (reduce (fn [acc d] (+ (* 10 acc) d))
-            0 (concat (interleave (butlast template) digits) (list (last template)))))
+(defn- inject
+  "Inject the digits into the magic template and return the value"
+  [template digits]
+  (reduce (fn [acc d] (+ (* 10 acc) d))
+          0 (concat (interleave (butlast template) digits) (list (last template)))))
 
-  (let [rtemplate (reverse template)]
-    (defn- match?
-      [n]
-      (loop [[a & as] (take-nth 2 (rdigitize n)) [b & bs] rtemplate]
-        (if as
-          (and (= a b) (recur as bs))
-          n)))))
+(defn- match?
+  [template n]
+  (loop [[a & as] (take-nth 2 (rdigitize n)) [b & bs] (reverse template)]
+    (if as
+      (and (= a b) (recur as bs))
+      n)))
 
 ;; https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Digit-by-digit_calculation
 (defn- sqrt
@@ -51,10 +49,22 @@ where each “_” is a single digit."
 (defn- square [x] (* x x))
 
 (with-test
-  (defn ^{:answer 1389019170} main
+  (defn ^{:answer 1389019170 :square-of-answer 1929374254627488900} main
     []
-    (let [[lower _] (sqrt (inject (repeat 9 0)))
-          [upper _] (sqrt (inject (repeat 9 9)))
-          r (range (* 10 (quot lower 10)) (inc upper) 10)]
-      (first (sqrt (some match? (map square r))))))
+    (let [template '(1 2 3 4 5 6 7 8 9 0)
+          template' (butlast template)
+          [lower _] (sqrt (inject template' (repeat 8 0)))
+          [upper _] (sqrt (inject template' (repeat 8 9)))
+          xform (fn [rf] (fn
+                          ([] (rf))
+                          ([acc] (rf acc))
+                          ([acc n]
+                           (rf acc (+ n 3))
+                           (rf acc (+ n 7)))))
+          xform (comp (map (partial * 10)) xform (map square))
+          s' (some (partial match? template')
+                   (sequence xform (range (quot lower 10) (quot upper 10))))
+          r (* 10 (first (sqrt s')))]
+      (assert (match? template (* r r)))
+      r))
   (is (= (-> #'main meta :answer) (main))))

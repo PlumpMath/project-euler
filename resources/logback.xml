@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} %-5p %22.22t %-22.22c{2} %m%n%rEx{full}</pattern>
+        </encoder>
+    </appender>
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <File>${java.io.tmpdir}/logs/logback.log</File>
+      <encoder>
+        <pattern>%d{HH:mm:ss} %-5p %22.22t %-22.22c{2} %m%n</pattern>
+      </encoder>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${java.io.tmpdir}/logs/logback.log.%d{yyyy-MM-dd-HH}</fileNamePattern>
+      </rollingPolicy>
+    </appender>
+    <logger name="org.apache.zookeeper.ClientCnxn" level="ERROR"/>
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="ROLLING"/>
+    </root>
+</configuration>

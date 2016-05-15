@@ -7,6 +7,6 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.logging "0.3.1"]
                  [org.slf4j/slf4j-api "1.7.21"]
-                 [org.slf4j/slf4j-log4j12 "1.7.21"]
-                 [log4j/log4j "1.2.17"]]
+                 [org.slf4j/jcl-over-slf4j "1.7.13"]
+                 [ch.qos.logback/logback-classic "1.1.3"]]
   :jvm-opts ["-Xss2m"])

@@ -2,7 +2,8 @@
   "Longest Collatz sequence"
   ;Which starting number, under one million, produces the longest chain?
   {:problem-page "https://projecteuler.net/problem=14"}
-  (:require [clojure.test :as test :refer [with-test is]]
+  (:require [project-euler.util :refer [logging-execution-time]]
+            [clojure.test :as test :refer [with-test is]]
             [clojure.tools.logging :as log]))
 
 ;; OPTIMIZE: this does not benefit from being lazy.  Consider loop/recur
@@ -18,11 +19,12 @@
   (defn ^{:answer 837799} main
     []
     ;; OPTIMIZE: cache map of entry points to length of chain
-    (reduce (fn [[l n :as acc] candidate]
-              (let [l' (count (collatz candidate))]
-                (if (> l' l)
-                  [l' candidate]
-                  acc)))
-            [0 nil]
-            (range 1 1000000)))
+    (logging-execution-time
+     (last (reduce (fn [[l n :as acc] candidate]
+                     (let [l' (count (collatz candidate))]
+                       (if (> l' l)
+                         [l' candidate]
+                         acc)))
+                   [0 nil]
+                   (range 1 1000000)))))
   (is (= (-> #'main meta :answer) (main))))

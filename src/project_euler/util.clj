@@ -46,12 +46,12 @@
                                   (inc d)))))) ; lazy seq with fully realized data structure
      {} 2)))
 
-(defn- rdigitize
+(defn rdigitize
   "Return a lazy sequence of the digits, in reverse order, that comprise the natural number n"
   [n]
   (when-not (zero? n) (lazy-seq (cons (rem n 10) (rdigitize (quot n 10))))))
 
-(defn- digitize
+(defn digitize
   "Return a sequence of the digits that comprise the natural number n"
   [n]
   (reverse (rdigitize n)))

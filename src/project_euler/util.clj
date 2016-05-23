@@ -55,3 +55,15 @@
   "Return a sequence of the digits that comprise the natural number n"
   [n]
   (reverse (rdigitize n)))
+
+(defn factors
+  "Return all factors of n"
+  [n]
+  (let [limit (Math/sqrt n)]
+    (loop [acc #{} candidate 1]
+      (if (> candidate limit)
+        acc
+        (recur (if (zero? (mod n candidate))
+                 (conj acc candidate (quot n candidate))
+                 acc)
+               (inc candidate))))))

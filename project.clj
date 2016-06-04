@@ -6,6 +6,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.logging "0.3.1"]
+                 [org.clojure/math.combinatorics "0.1.3"]
                  [org.slf4j/slf4j-api "1.7.21"]
                  [org.slf4j/jcl-over-slf4j "1.7.13"]
                  [ch.qos.logback/logback-classic "1.1.3"]]

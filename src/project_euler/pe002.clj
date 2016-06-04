@@ -2,7 +2,9 @@
   "By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms."
   {:problem-page "https://projecteuler.net/problem=2"})
 
-(def fib (lazy-cat [0 1] (map + fib (rest fib))))
+(def fib (lazy-cat '(1N 1N) (map + fib (rest fib))))
+(def fib ((fn fib* [n-2 n-1]
+            (cons n-2 (lazy-seq (fib* n-1 (+ n-1 n-2))))) 1N 1N))
 
 (defn main
   []

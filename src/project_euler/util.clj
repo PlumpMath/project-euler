@@ -57,7 +57,7 @@
   (reverse (rdigitize n)))
 
 (defn factors
-  "Return all factors of n"
+  "Return all factor pairs of n"
   [n]
   (let [limit (Math/sqrt n)]
     (loop [acc #{} candidate 1]
@@ -67,3 +67,18 @@
                  (conj acc candidate (quot n candidate))
                  acc)
                (inc candidate))))))
+
+;; https://en.wikipedia.org/wiki/Trial_division
+(defn prime-factorization
+  "Return the prime factorization of n using trial division"
+  [n]
+  (let [limit (long (Math/ceil (Math/sqrt n)))
+        candidates (take-while (fn [p] (<= p limit)) primes)]
+    (if (= 1 n)
+      () ; this matches the accepted definition for the prime factorization of 1
+      (loop [[candidate & candidates] candidates]
+        (if-not candidate
+          (list n) ; n is itself prime since we have run out of candidates
+          (if (zero? (mod n candidate))
+            (cons candidate (prime-factorization (quot n candidate)))
+            (recur candidates)))))))

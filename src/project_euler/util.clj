@@ -82,3 +82,16 @@
           (if (zero? (mod n candidate))
             (cons candidate (prime-factorization (quot n candidate)))
             (recur candidates)))))))
+
+(defn prime?
+  "Is n a prime number?"
+  [n]
+  (let [limit (-> n sqrt first long)
+        candidates (take-while (fn [p] (<= p limit)) primes)]
+    (when-not (= 1 n)
+      (loop [[candidate & candidates] candidates]
+        (if-not candidate
+          true
+          (if (zero? (mod n candidate))
+            false
+            (recur candidates)))))))
